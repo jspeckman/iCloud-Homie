@@ -159,18 +159,19 @@ class Device_iCloud_Device(Device_Base):
             self.device_status.value = DEVICESTATUSCODES[status["deviceStatus"]]
             self.battery_level.value = round(float(status["batteryLevel"])*100,0)
             self.battery_status.value = status["batteryStatus"]
-            if location is not None:
-                self.location_lastupdate.value = datetime.datetime.fromtimestamp(float(location["timeStamp"])/1000).strftime("%d/%m/%Y %H:%M:%S")
-                self.latitude.value = float(location["latitude"])
-                self.longitude.value = float(location["longitude"])
-                self.location_accuracy.value = float(location["horizontalAccuracy"])
-                self.location_type.value = location ["positionType"]
-            else:
-                self.location_lastupdate.value = "Unknown"
-                self.latitude.value = 0
-                self.longitude.value = 0
-                self.location_accuracy.value = 0
-                self.location_type.value = "Unknown"
+            if self.enable_location.value == 'ON':
+                if location is not None:
+                    self.location_lastupdate.value = datetime.datetime.fromtimestamp(float(location["timeStamp"])/1000).strftime("%d/%m/%Y %H:%M:%S")
+                    self.latitude.value = float(location["latitude"])
+                    self.longitude.value = float(location["longitude"])
+                    self.location_accuracy.value = float(location["horizontalAccuracy"])
+                    self.location_type.value = location ["positionType"]
+                else:
+                    self.location_lastupdate.value = "Unknown"
+                    self.latitude.value = 0
+                    self.longitude.value = 0
+                    self.location_accuracy.value = 0
+                    self.location_type.value = "Unknown"
 
         except:
             traceback.print_exc()
